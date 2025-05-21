@@ -1,0 +1,286 @@
+/* style.css - Complete Updated Version */
+
+/* Base Variables */
+:root {
+  --primary-dark: #2c3e50;
+  --primary-darker: #1a3e72;
+  --accent: #2ecc71;
+  --accent-dark: #27ae60;
+  --text-light: #ffffff;
+  --text-muted: rgba(255, 255, 255, 0.7);
+  --glass-white: rgba(255, 255, 255, 0.1);
+  --glass-border: rgba(255, 255, 255, 0.1);
+  --shadow-dark: rgba(0, 0, 0, 0.2);
+  --shadow-accent: rgba(46, 204, 113, 0.4);
+}
+
+/* Base Reset & Global Styles */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary-darker) 100%);
+  color: var(--text-light);
+  min-height: 100vh;
+  font-family: 'Poppins', sans-serif;
+  line-height: 1.6;
+  margin: 0;
+  padding: 0;
+}
+
+/* Typography */
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 600;
+  line-height: 1.2;
+  margin-bottom: 1rem;
+}
+
+h1 { font-size: 2.5rem; }
+h2 { font-size: 2rem; }
+h3 { font-size: 1.75rem; }
+h4 { font-size: 1.5rem; }
+
+p {
+  margin-bottom: 1rem;
+  color: var(--text-muted);
+}
+
+a {
+  color: var(--accent);
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+a:hover {
+  color: var(--accent-dark);
+}
+
+/* Layout Components */
+.container {
+  background-color: var(--glass-white);
+  backdrop-filter: blur(10px);
+  border-radius: 15px;
+  padding: 2rem;
+  margin: 2rem auto;
+  max-width: 1200px;
+  box-shadow: 0 8px 32px var(--shadow-dark);
+  border: 1px solid var(--glass-border);
+}
+
+.page-wrapper {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Buttons */
+.button, 
+.cta-button {
+  display: inline-block;
+  padding: 12px 24px;
+  background-color: var(--accent);
+  color: white;
+  border: none;
+  border-radius: 50px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  text-align: center;
+  box-shadow: 0 4px 15px var(--shadow-accent);
+}
+
+.button:hover, 
+.cta-button:hover {
+  background-color: var(--accent-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px var(--shadow-accent);
+}
+
+.cta-button.pulse {
+  animation: pulse 2s infinite;
+}
+
+/* Animations */
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Form Elements */
+input, select, textarea {
+  background-color: rgba(255, 255, 255, 0.1);
+  border: 1px solid var(--glass-border);
+  border-radius: 4px;
+  padding: 10px;
+  color: white;
+  width: 100%;
+  margin-bottom: 1rem;
+}
+
+input:focus, select:focus, textarea:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+/* Tables */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1rem 0;
+  background-color: var(--glass-white);
+  backdrop-filter: blur(10px);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+th, td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid var(--glass-border);
+}
+
+th {
+  background-color: var(--primary-dark);
+  color: white;
+}
+
+tr:nth-child(even) {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+/* Map Containers */
+#map, #results-map {
+  width: 100%;
+  height: 500px;
+  border-radius: 8px;
+  border: 1px solid var(--glass-border);
+  margin: 1rem 0;
+}
+
+/* Utility Classes */
+.text-center { text-align: center; }
+.mt-1 { margin-top: 1rem; }
+.mt-2 { margin-top: 2rem; }
+.mb-1 { margin-bottom: 1rem; }
+.mb-2 { margin-bottom: 2rem; }
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .container {
+    margin: 1rem;
+    padding: 1.5rem;
+  }
+  
+  h1 { font-size: 2rem; }
+  h2 { font-size: 1.75rem; }
+  
+  #map, #results-map {
+    height: 300px;
+  }
+}
+/* Algorithm Selection Page Styling */
+.algorithm-option {
+  background-color: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  margin: 15px 0;
+  padding: 15px;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.algorithm-option:hover {
+  background-color: rgba(255, 255, 255, 0.25);
+}
+
+.algorithm-option label {
+  color: white;
+  font-weight: 600;
+  font-size: 1.1rem;
+  cursor: pointer;
+}
+
+.algorithm-option p {
+  color: rgba(255, 255, 255, 0.8);
+  margin-top: 8px;
+  margin-left: 24px;
+}
+
+.algorithm-option input[type="radio"] {
+  accent-color: #2ecc71;
+  transform: scale(1.2);
+  margin-right: 10px;
+}
+
+.edges-table {
+  background-color: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+}
+
+.edges-table th {
+  background-color: rgba(0, 0, 0, 0.3);
+  color: white;
+}
+
+.edges-table td {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.edges-table tr:nth-child(even) {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+/* Results Page Styling */
+.result-table {
+  background-color: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+}
+
+.result-table th {
+  background-color: rgba(0, 0, 0, 0.3);
+  color: white;
+}
+
+.result-table td {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.result-table tr:nth-child(even) {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.mst-cost {
+  background-color: rgba(0, 0, 0, 0.2);
+  padding: 15px;
+  border-radius: 8px;
+  margin: 20px 0;
+}
+
+.mst-cost p {
+  color: white;
+  margin-bottom: 5px;
+}
+
+.mst-cost strong {
+  color: #2ecc71;
+}
+
+.graph-container {
+  background-color: rgba(255, 255, 255, 0.1);
+  padding: 20px;
+  border-radius: 8px;
+  margin: 20px 0;
+}
