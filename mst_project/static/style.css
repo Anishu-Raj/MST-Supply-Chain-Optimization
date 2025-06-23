@@ -284,3 +284,13 @@ tr:nth-child(even) {
   border-radius: 8px;
   margin: 20px 0;
 }
+/* Add to style.css */
+.root-node-indicator {
+    background-color: #f39c12;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    display: inline-block;
+}

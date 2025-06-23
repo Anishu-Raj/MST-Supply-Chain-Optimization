@@ -138,6 +138,7 @@ def algorithm_selection(request):
     if request.method == 'POST':
         print("POST data:", request.POST)
         algorithm = request.POST.get('algorithm')
+        
         if algorithm in ['kruskal', 'prim']:
             print(f"Selected algorithm: {algorithm}")
             request.session['algorithm'] = algorithm
@@ -166,15 +167,10 @@ def show_results(request):
     algorithm = request.session.get('algorithm', '')
     edges = request.session.get('edges', [])
     
-    print(f"Selected areas: {selected_areas}")
-    print(f"Algorithm: {algorithm}")
-    print(f"Edges count: {len(edges)}")
-    
-    if not selected_areas or algorithm not in ['kruskal', 'prim'] or not edges:
-        print("Missing required data, redirecting to map_selection")
-        return redirect('map_selection')
-    
     try:
+        # Initialize result and total_cost with default values
+        result = []
+        total_cost = 0
         # For algorithms, use (u, v, cost)
         algorithm_edges = [(u, v, cost) for u, v, dist, cost in edges]
         
@@ -182,7 +178,7 @@ def show_results(request):
             result, total_cost = kruskal(selected_areas, algorithm_edges)
         else:
             result, total_cost = prim(selected_areas, algorithm_edges)
-            
+           
         print("MST calculation successful")
         print(f"Result edges: {result}")
         print(f"Total cost: {total_cost}")
@@ -193,6 +189,7 @@ def show_results(request):
             for x, y, d, c in edges:
                 if {u, v} == {x, y}:
                     display_edges.append((x, y, d, c))
+                    found = True
                     break
         
         # For visualization, use (u, v, distance)
@@ -230,30 +227,36 @@ def show_results(request):
 def create_graph_visualization(areas, all_edges, mst_edges, algorithm):
     """Create a matplotlib graph visualization of the MST"""
     plt.figure(figsize=(8,6))
-    G = nx.Graph()
-    
+    G = nx.DiGraph()
+
     # Add all nodes
     G.add_nodes_from(areas)
     
     # Add all edges (light gray)
     for u, v, w in all_edges:
-        G.add_edge(u, v, weight=w, color='lightgray', width=1)
+        G.add_edge(u, v, weight=w, color='lightgray', width=1,style='dashed')
+
+    
+    # Determine root node for Prim's (first node in the list)
+    root_node = areas[0] if areas else None
     
     # Add MST edges (highlighted)
     for u, v, w in mst_edges:
-        if G.has_edge(u, v):
-            if algorithm == 'kruskal':
-                G.edges[u, v].update({
-                    'color': '#e74c3c',  # Red for Kruskal
-                    'style': 'solid',
-                    'width': 3
-                })
+         if algorithm == 'prim':
+            # For Prim's, show direction from root outward
+            if root_node and (u == root_node or v == root_node):
+                if u == root_node:
+                    G.add_edge(u, v, weight=w, color='#3498db', width=3, style='solid')
+                else:
+                    G.add_edge(v, u, weight=w, color='#3498db', width=3, style='solid')
             else:
-                G.edges[u, v].update({
-                    'color': '#3498db',  # Blue for Prim
-                    'style': 'solid',
-                    'width': 3
-                })
+                # For other edges, determine direction based on tree structure
+                G.add_edge(u, v, weight=w, color='#3498db', width=3, style='solid')
+         else:
+            # For Kruskal's, just show bidirectional connections
+            G.add_edge(u, v, weight=w, color='#e74c3c', width=3, style='solid')
+            G.add_edge(v, u, weight=w, color='#e74c3c', width=3, style='solid')
+    
     
     # Position nodes using spring layout
     pos = nx.spring_layout(G, seed=42, k=0.5)
@@ -262,17 +265,49 @@ def create_graph_visualization(areas, all_edges, mst_edges, algorithm):
     edges = G.edges()
     colors = [G[u][v]['color'] for u, v in edges]
     widths = [G[u][v]['width'] for u, v in edges]
-    nx.draw_networkx_edges(G, pos, edgelist=edges, edge_color=colors, width=widths)
+    styles = [G[u][v]['style'] for u, v in edges]
+    for i, (u, v) in enumerate(edges):
+        if G[u][v]['style'] == 'solid' and algorithm == 'prim':
+            # Only show arrows for Prim's algorithm to indicate direction
+            nx.draw_networkx_edges(
+                G, pos, edgelist=[(u, v)],
+                edge_color=colors[i],
+                width=widths[i],
+                style=styles[i],
+                arrows=True,
+                arrowstyle='-|>',
+                arrowsize=15,
+                node_size=700
+            )
+        else:
+            # For Kruskal's, show bidirectional connections without arrows
+            nx.draw_networkx_edges(
+                G, pos, edgelist=[(u, v)],
+                edge_color=colors[i],
+                width=widths[i],
+                style=styles[i]
+            )
+   # nx.draw_networkx_edges(G, pos, edgelist=edges, edge_color=colors, width=widths)
     
     # Draw nodes
     nx.draw_networkx_nodes(G, pos, node_size=500, node_color='skyblue')
+    
+    # Highlight root node for Prim's
+    if algorithm == 'prim' and root_node:
+        nx.draw_networkx_nodes(G, pos, nodelist=[root_node], 
+                              node_size=800, node_color='#f39c12')
     
     # Draw labels
     nx.draw_networkx_labels(G, pos, font_size=8, font_family='sans-serif')
     
     # Draw edge labels
     edge_labels = {(u, v): f"{w:.1f}" for u, v, w in mst_edges}
-    nx.draw_networkx_edge_labels(G, pos, edge_labels=edge_labels, font_color='red')
+    nx.draw_networkx_edge_labels(G, pos, edge_labels=edge_labels, 
+                               font_color='red', font_size=8)
+    
+    plt.title(f"Minimum Spanning Tree ({algorithm.capitalize()}'s Algorithm)\n"
+              f"Direction shown for Prim's algorithm", fontsize=12)
+    plt.axis('off')
     
     plt.title(f"Minimum Spanning Tree ({algorithm.capitalize()}'s Algorithm)")
     plt.axis('off')
