@@ -1,73 +1,158 @@
-<<<<<<< HEAD
-"# MST-based Supply Network" 
-Dehradun Supply Chain Optimization (MST-Based)
-This project visualizes and optimizes the power supply distribution across Dehradun using Minimum Spanning Tree (MST) algorithms—Kruskal's and Prim's—within a Django web application featuring interactive map support and detailed graph analysis.
+# ⚡ Dehradun Supply Chain Optimization (MST-Based)
 
- Features:
-  Interactive Map UI using Leaflet.js to select areas in Dehradun.
+This project visualizes and optimizes the power supply distribution across Dehradun using **Minimum Spanning Tree (MST)** algorithms — **Kruskal's** and **Prim's** — within a Django web application featuring interactive map support and detailed graph analysis.
 
-   MST Algorithm Implementation: Choose between Kruskal's or Prim's algorithm for optimal supply chain planning.
- 
-  Cost & Distance Calculation between all selected substations using the Haversine formula.
+---
 
-  Graphical Visualization of the MST using NetworkX and Matplotlib.
+## 🚀 Features
 
-  Map Visualization of the Network with directional edges and real-time MST overlay.
+- 🌍 **Interactive Map UI** using **Leaflet.js** to select areas in Dehradun.
+- 🧠 **MST Algorithm Implementation**: Choose between Kruskal's or Prim's algorithm.
+- 📊 **Cost & Distance Calculation** using the **Haversine formula**.
+- 🖼️ **Graphical Visualization** of MST using **NetworkX** and **Matplotlib**.
+- 🗺️ **Map Visualization** with directional edges and live MST overlay.
+- 🔁 **Dynamic Area Data Fetching** via **OpenStreetMap (Overpass API)**.
 
-   Dynamic Area Data Fetching via OpenStreetMap (Overpass API).
+---
 
-🛠️ Tech Stack
-Technology	Usage
-Django	Web framework and backend logic
-Leaflet.js	Frontend map visualization
-NetworkX	Graph structure and MST generation
-Matplotlib	Graph image plotting
-HTML/CSS/JS	Interactive frontend with dynamic UI
-OpenStreetMap	Area data & coordinates
-SQLite	Default database (via Django)
+## 🛠️ Tech Stack
 
-📌 How It Works
-1. Area Selection
-Users interact with a Leaflet map to select substations or regions within Dehradun.
+| Technology      | Usage                                |
+|-----------------|--------------------------------------|
+| Django          | Web framework and backend logic      |
+| Leaflet.js      | Frontend map visualization           |
+| NetworkX        | Graph structure and MST generation   |
+| Matplotlib      | Graph image plotting                 |
+| HTML/CSS/JS     | Interactive frontend + UI styling    |
+| OpenStreetMap   | Area data & coordinates              |
+| SQLite          | Default lightweight database (Django)|
 
-Area coordinates are loaded via OpenStreetMap Overpass API.
+---
 
-2. Edge Generation
-For each pair of selected areas, the Haversine distance is calculated.
+## 📌 How It Works
 
-Cost is computed as:
-cost = distance_in_km * 1000
+### 1. Area Selection
+- Users select **substations or regions** on the map of Dehradun.
+- Area coordinates are fetched dynamically using **Overpass API** from **OpenStreetMap**.
 
-3. Algorithm Choice
-Users choose either:
+### 2. Edge Generation
+- For every selected area pair, the **Haversine formula** calculates the distance.
+- **Cost** is calculated using:  
+  `cost = distance_in_km × 1000`
 
-Kruskal’s Algorithm – Greedy approach using sorted edges.
+### 3. Algorithm Choice
+Users can choose either:
+- 🔺 **Kruskal’s Algorithm** – Greedy method that sorts all edges by weight and connects without forming cycles.
+- 🔹 **Prim’s Algorithm** – Starts from one node and grows the MST by picking the shortest edge to a new node.
 
-Prim’s Algorithm – Expands from a starting node with the smallest edge.
+### 4. MST Generation
+- MST is built based on the selected algorithm.
+- **Total cost and distance** are calculated and displayed.
 
-4. MST Generation
-MST is computed from selected edges.
+### 5. Visualization
+- 📈 **Static Graph** using **NetworkX + Matplotlib**
+- 🗺️ **Dynamic Leaflet Map** with color-coded MST overlay and directional arrows
 
-Total distance and cost of the MST are calculated and displayed.
+---
 
-5. Visualization
-📈 Static Graph: Generated using NetworkX and Matplotlib.
+## 🧪 Sample Screenshots (To Be Added)
 
-🗺️ Dynamic Map Overlay: Edges and nodes rendered on the map using Leaflet.js with directional arrows and color codes.
+| Feature           | Preview                        |
+|------------------|---------------------------------|
+| Map Selection     | ✅ Area markers and selection UI |
+| Algorithm Page    | ✅ Table of distances + selection |
+| Results Page      | ✅ MST graph + interactive map  |
 
-FOLDER STRUCTURE:
+---
+
+## 📁 Folder Structure
+
 mst_project/
-├── templates/                  # All HTML files
-│   ├── home.html
-│   ├── map_selection.html
-│   ├── algorithm_selection.html
-│   └── results.html
-├── static/                     # Static files (CSS, JS, icons)
-├── views.py                    # Django views
-├── urls.py                     # URL routing
-├── algorithms.py               # Kruskal & Prim logic
-├── settings.py                 # Django configuration
-├── asgi.py / wsgi.py           # Server interface
-└── db.sqlite3                  # SQLite database
+├── templates/
+│ ├── home.html
+│ ├── map_selection.html
+│ ├── algorithm_selection.html
+│ └── results.html
+├── static/
+├── views.py
+├── urls.py
+├── algorithms.py
+├── settings.py
+├── asgi.py / wsgi.py
+└── db.sqlite3
+
+
+---
+
+## 🧩 Algorithms Used
+
+### 🔺 Kruskal’s Algorithm
+- Sort all edges by weight
+- Add the smallest edge if it doesn't form a cycle
+- Uses **Union-Find**
+- **Time Complexity:** `O(E log E)`
+
+### 🔹 Prim’s Algorithm
+- Start from any node
+- Add the smallest edge connecting to a new node
+- Uses **Min Heap (Priority Queue)**
+- **Time Complexity:** `O(E log V)`
+
+---
+
+## ✅ How to Run Locally
+
+```bash
+# Clone the repo
+git clone https://github.com/Anishu-Raj/MST-Supply-Chain-Optimization.git
+cd MST-Supply-Chain-Optimization
+
+# Create a virtual environment
+python -m venv env
+# Activate it
+env\Scripts\activate  # On Windows
+# OR
+source env/bin/activate  # On Linux/macOS
+
+# Install dependencies
+pip install -r requirements.txt
+
+# Run migrations
+python manage.py migrate
+
+# Start the development server
+python manage.py runserver
+
+Then open http://127.0.0.1:8000/ in your browser.
+
+```
+## Future Improvements
+**✅ Add real-time GIS data support**
+
+**✅ User authentication and session save**
+
+**✅ Export MST network as CSV/JSON**
+
+**✅ Upload datasets for multiple cities**
+
+## 🙌 Credits
+**🧠 MST Algorithms: Custom Python logic in algorithms.py**
+
+**🌍 Map UI: Leaflet.js**
+
+**📊 Graph Rendering: NetworkX + Matplotlib**
+
+**🗺️ Geolocation Data: OpenStreetMap Overpass API**
+
+
+---
+## Sample Screenshots![Screenshot (1134)](https://github.com/user-attachments/assets/fa04aeab-9075-43d1-95f9-4f99519a87f6)
+## map selction![Screenshot (1135)](https://github.com/user-attachments/assets/a2c82ac3-ce7e-47e2-a41d-4ef613ceeb02)
+## Algorithm selection![Screenshot (1136)](https://github.com/user-attachments/assets/85331722-a64e-49b3-818c-da3e57184cd1) ![Screenshot (1137)](https://github.com/user-attachments/assets/1e99cdbe-cad9-4dba-bff8-df4c84a1e027)
+## Result page![Screenshot (1138)](https://github.com/user-attachments/assets/dfce9339-d21b-40f6-9d90-61c36d626e8a) ![Screenshot (1140)](https://github.com/user-attachments/assets/88146fa4-09f6-4f05-b317-50888c465eab)
+![Screenshot (1139)](https://github.com/user-attachments/assets/8866a9ba-a6de-4c55-849b-c34b6e81ddbe)
+
+
+
 
 
