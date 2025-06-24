@@ -55,4 +55,19 @@ Total distance and cost of the MST are calculated and displayed.
 
 🗺️ Dynamic Map Overlay: Edges and nodes rendered on the map using Leaflet.js with directional arrows and color codes.
 
+FOLDER STRUCTURE:
+mst_project/
+├── templates/                  # All HTML files
+│   ├── home.html
+│   ├── map_selection.html
+│   ├── algorithm_selection.html
+│   └── results.html
+├── static/                     # Static files (CSS, JS, icons)
+├── views.py                    # Django views
+├── urls.py                     # URL routing
+├── algorithms.py               # Kruskal & Prim logic
+├── settings.py                 # Django configuration
+├── asgi.py / wsgi.py           # Server interface
+└── db.sqlite3                  # SQLite database
+
 
