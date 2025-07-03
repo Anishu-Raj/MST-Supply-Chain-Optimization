@@ -90,12 +90,14 @@ mst_project/
 - Sort all edges by weight
 - Add the smallest edge if it doesn't form a cycle
 - Uses **Union-Find**
+- Used in Spase Graphs
 - **Time Complexity:** `O(E log E)`
 
 ### 🔹 Prim’s Algorithm
 - Start from any node
 - Add the smallest edge connecting to a new node
 - Uses **Min Heap (Priority Queue)**
+- Used in Dense Graphs
 - **Time Complexity:** `O(E log V)`
 
 ---
